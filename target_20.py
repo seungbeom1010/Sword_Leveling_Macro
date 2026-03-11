@@ -69,15 +69,23 @@ class target_20:
         self.start_btn.config(state="normal")
         self.stop_btn.config(state="disabled")
         self.log(">>> 일단 휴식")
-        
+
+    def get_upgrade_position(self):
+        try:
+            if pyautogui.locateOnScreen('superupgrade.png', confidence=0.8):
+                return None
+        except:
+            pass 
+
+        try:
+            return pyautogui.locateOnScreen('upgrade.png', confidence=0.8)
+        except:
+            return None
 
     def run_logic(self):
         while self.is_running:
             try:
-                try:
-                    target_pos = pyautogui.locateOnScreen('upgrade.png', confidence=0.8)
-                except:
-                    target_pos = None
+                target_pos = self.get_upgrade_position()
 
                 if target_pos:
                     center_x, center_y = pyautogui.center(target_pos)
@@ -85,8 +93,8 @@ class target_20:
                     self.log(f"⚔️ 강화 가즈아!!!!")
                     time.sleep(2.0) 
                 else:
-                    target_x = 346
-                    target_y = 743
+                    target_x = 344
+                    target_y = 737
 
                     pyautogui.click(target_x, target_y)
                     self.log(f"직접 입력으로 강화 시도...")
@@ -98,7 +106,10 @@ class target_20:
                     pyautogui.hotkey('command', 'v') # 윈도우는 ctrl로 변경
 
                     time.sleep(0.5)
-                    
+                    # 260311 상급강화 처리
+                    pyautogui.press('down')
+                    time.sleep(0.5)
+
                     pyautogui.press('enter') 
                     time.sleep(1.0) 
                     pyautogui.press('enter') 
